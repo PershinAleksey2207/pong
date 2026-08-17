@@ -1,63 +1,64 @@
 # Pong
 
-![Игровой процесс](docs/gameplay.png)
+![Gameplay](docs/gameplay.png)
 
-Попытка подобраться как можно ближе к оригинальному Pong 1972 года: два прямоугольника,
-квадратный мяч, пунктирная сетка по центру и счёт крупными цифрами. Никаких бонусов,
-меню и частиц — только то, что было в автомате.
+An attempt to get as close to the original 1972 Pong as possible: two rectangles,
+a square ball, a dashed net down the middle and a big blocky score. No power-ups,
+no menus, no particles — only what the cabinet actually had.
 
-С одной оговоркой. Оригинал стоял в зале игровых автоматов, и никакой «пиксельности»
-в нём не было — картинку рисовал электронный луч по кинескопу. Поэтому вместо
-имитации крупного пикселя здесь пост-обработка, изображающая ЭЛТ: изгиб стекла,
-строчная развёртка, свечение люминофора, растекание цвета по краям знаков,
-виньетка и лёгкое дрожание аналогового сигнала.
+With one deliberate exception. The original stood in an arcade and had no "pixels"
+in it at all: the picture was drawn by an electron beam sweeping across a cathode
+ray tube. So instead of faking chunky pixels, this build runs a post-process that
+imitates the tube itself — glass curvature, scanlines, phosphor mask, colour
+bleeding around the edges of shapes, vignette and a slight analog signal jitter.
 
-| Демо-режим | ЭЛТ вблизи |
+| Attract mode | The CRT up close |
 | --- | --- |
-| ![Демо-режим](docs/demo.png) | ![Деталь CRT-шейдера](docs/crt-detail.png) |
+| ![Attract mode](docs/demo.png) | ![CRT shader detail](docs/crt-detail.png) |
 
-Учебный проект в рамках **20 Games Challenge** — Pong там идёт первым заданием.
-Собран на Godot 4.7.
+A learning project from the **20 Games Challenge**, where Pong is the very first
+assignment. Built with Godot 4.7.
 
-## Управление
+## Controls
 
-| Действие | Клавиши |
+| Action | Keys |
 | --- | --- |
-| Левая ракетка вверх / вниз | <kbd>W</kbd> / <kbd>S</kbd> |
-| Правая ракетка вверх / вниз | <kbd>↑</kbd> / <kbd>↓</kbd> |
-| Начать партию | <kbd>Space</kbd> или <kbd>Enter</kbd> |
+| Left paddle up / down | <kbd>W</kbd> / <kbd>S</kbd> |
+| Right paddle up / down | <kbd>↑</kbd> / <kbd>↓</kbd> |
+| Start a match | <kbd>Space</kbd> or <kbd>Enter</kbd> |
 
-## Правила
+## Rules
 
-Партия идёт до трёх очков, после чего игра возвращается в демо-режим.
+First player to 11 points wins, after which the game drops back into attract mode.
 
-Пока никто не играет, мяч отскакивает от всех четырёх стенок сам по себе, а ракетки
-скрыты — как заставка в автомате. Угол отскока зависит от того, какой частью ракетки
-принят мяч: ближе к краю — острее. Чем дольше держится розыгрыш, тем быстрее летит
-мяч: скорость растёт после четвёртого и после двенадцатого удара и сбрасывается
-с началом нового мяча.
+While nobody is playing, the ball bounces off all four walls on its own and the
+paddles stay hidden, the way an arcade cabinet idles. The bounce angle depends on
+which part of the paddle the ball hits: closer to the edge, sharper the angle.
+The longer a rally lasts, the faster the ball travels — it speeds up after the
+fourth and the twelfth hit, and resets when a new ball is served.
 
-## Запуск
+## Running it
 
-Открыть папку проекта в Godot 4.7 и запустить главную сцену `scn/level.tscn`.
+Open the project folder in Godot 4.7 and run the main scene, `scn/level.tscn`.
 
-## Что внутри
+## What's inside
 
 ```
 scn/
-  level.tscn / level.gd        поле, звуки, переключение демо-режима
-  level.gdshader               пост-обработка ЭЛТ
-  ball.tscn / ball.gd          мяч: движение, отскоки, подача, ускорение
-  paddle.tscn / paddle.gd      ракетка, одна сцена на обоих игроков
-  score.tscn / score.gd        табло и условие победы
-src/                           шрифты и звуки
+  level.tscn / level.gd        the field, audio, attract mode switching
+  level.gdshader               CRT post-processing
+  ball.tscn / ball.gd          ball movement, bounces, serving, speed-up
+  paddle.tscn / paddle.gd      paddle, one scene shared by both players
+  score.tscn / score.gd        scoreboard and win condition
+src/                           fonts and sounds
 ```
 
-Мяч и ракетки — это `Area2D`: физический движок здесь не нужен, всё движение
-и отскоки считаются вручную. Ракетка одна на двоих, экземпляры различаются
-экспортированным `player_id`, по которому выбирается набор клавиш.
-Мяч ничего не знает про счёт — он лишь сообщает сигналом, за какую сторону вылетел,
-а решение о том, кому очко, принимает табло.
+The ball and the paddles are plain `Area2D` nodes: no physics engine is involved,
+all movement and bouncing is computed by hand. Both players share a single paddle
+scene, and the two instances differ only by an exported `player_id` that selects
+which keys they listen to. The ball knows nothing about the score — it just emits
+a signal saying which side it left through, and the scoreboard decides who gets
+the point.
 
-Репозиторий включает папку `addons/` с редакторным плагином — для самой игры
-он не нужен, но на него ссылается `project.godot`, поэтому лежит здесь.
+The repository includes an `addons/` folder with an editor plugin. The game itself
+does not need it, but `project.godot` references it, so it ships along.
