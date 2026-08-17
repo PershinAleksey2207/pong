@@ -1,6 +1,6 @@
-# Pong
+![Almost Original Pong](docs/cover.png)
 
-![Gameplay](docs/gameplay.gif)
+# Pong
 
 An attempt to get as close to the original 1972 Pong as possible: two rectangles,
 a square ball, a dashed net down the middle and a big blocky score. No power-ups,
@@ -11,6 +11,8 @@ in it at all: the picture was drawn by an electron beam sweeping across a cathod
 ray tube. So instead of faking chunky pixels, this build runs a post-process that
 imitates the tube itself — glass curvature, scanlines, phosphor mask, colour
 bleeding around the edges of shapes, vignette and a slight analog signal jitter.
+
+![Gameplay](docs/gameplay.gif)
 
 | Attract mode | Match in progress | The CRT up close |
 | --- | --- | --- |
