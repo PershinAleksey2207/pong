@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://bikkivyopfwue"]
+
+[ext_resource type="Script" uid="uid://cardnsfldtcu3" path="res://scn/level.gd" id="1_nkl5l"]
+[ext_resource type="PackedScene" uid="uid://d1hap1gshipii" path="res://scn/ball.tscn" id="1_xhvlv"]
+[ext_resource type="PackedScene" uid="uid://bhtcwbejn333h" path="res://scn/score.tscn" id="2_5odhy"]
+[ext_resource type="PackedScene" uid="uid://kgen6bqq5753" path="res://scn/paddle.tscn" id="2_nkl5l"]
+[ext_resource type="FontFile" uid="uid://csxgfusks4bei" path="res://src/bit5x3.ttf" id="3_x8pam"]
+[ext_resource type="AudioStream" uid="uid://dm7iga52dby1n" path="res://src/paddle.mp3" id="5_n8sm8"]
+[ext_resource type="AudioStream" uid="uid://c2h3q37ddpyxr" path="res://src/wall.mp3" id="6_x8pam"]
+[ext_resource type="AudioStream" uid="uid://c6sn2dp8acnup" path="res://src/score.mp3" id="7_dqfob"]
+[ext_resource type="Shader" uid="uid://dtm6shngqamb3" path="res://scn/level.gdshader" id="9_dqfob"]
+
+[sub_resource type="GDScript" id="GDScript_wvuik"]
+resource_name = "central_net"
+script/source = "extends Node2D
+
+var segment_length = 8
+var gap_length = 10
+var net_width = 1
+
+func _draw():
+	var screen_size = get_viewport_rect().size
+	var center_x = screen_size.x / 2
+	var start_y = 0
+	
+	while start_y < screen_size.y:
+		var start_point = Vector2(center_x, start_y)
+		var end_point = Vector2(center_x, start_y + segment_length)
+		
+		draw_line(start_point, end_point, Color.WHITE, net_width)
+		
+		start_y += gap_length + segment_length
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jq5g8"]
+shader = ExtResource("9_dqfob")
+shader_parameter/resolution = Vector2(320, 240)
+shader_parameter/curve_power = 0.158000007505
+shader_parameter/zoom = 1.03200000152
+shader_parameter/scanline_intensity = 0.4510000214225
+shader_parameter/color_bleed = 0.27200001292
+shader_parameter/mask_darkness = 0.1910000090725
+shader_parameter/brightness_boost = 1.226000010735
+shader_parameter/vignette_intensity = 1.58000007505
+shader_parameter/border_thickness = 0.02
+shader_parameter/jitter_intensity = 0.0010000000475
+shader_parameter/jitter_speed = 0.38000001805
+
+[node name="Level" type="Node2D" unique_id=1252119981]
+script = ExtResource("1_nkl5l")
+
+[node name="Score" parent="." unique_id=1110370194 instance=ExtResource("2_5odhy")]
+
+[node name="Back" type="CanvasLayer" parent="." unique_id=905514827]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="Back" unique_id=681404386]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.021434637, 0.021434635, 0.021434633, 1)
+
+[node name="Node2D" type="Node2D" parent="Back" unique_id=981409162]
+script = SubResource("GDScript_wvuik")
+
+[node name="PressSpace" type="Label" parent="Back" unique_id=535615306]
+modulate = Color(1, 1, 1, 0.11764706)
+offset_left = 6.0
+offset_top = 462.0
+offset_right = 193.0
+offset_bottom = 485.0
+theme_override_fonts/font = ExtResource("3_x8pam")
+text = "Press space to start..."
+
+[node name="Ball" parent="." unique_id=677164344 instance=ExtResource("1_xhvlv")]
+position = Vector2(320, 240)
+
+[node name="Paddle" parent="." unique_id=985213707 instance=ExtResource("2_nkl5l")]
+position = Vector2(16, 228)
+player_id = 1
+paddle_len = 70
+
+[node name="Paddle2" parent="." unique_id=914456459 instance=ExtResource("2_nkl5l")]
+position = Vector2(624, 228)
+player_id = 2
+paddle_len = 70
+
+[node name="Audio" type="Node2D" parent="." unique_id=1451943146]
+
+[node name="Paddle" type="AudioStreamPlayer" parent="Audio" unique_id=938212083]
+stream = ExtResource("5_n8sm8")
+
+[node name="Wall" type="AudioStreamPlayer" parent="Audio" unique_id=154873717]
+stream = ExtResource("6_x8pam")
+
+[node name="Score" type="AudioStreamPlayer" parent="Audio" unique_id=1682226639]
+stream = ExtResource("7_dqfob")
+
+[node name="CRT_layer" type="CanvasLayer" parent="." unique_id=750433467]
+layer = 100
+
+[node name="ColorRect" type="ColorRect" parent="CRT_layer" unique_id=1736924251]
+material = SubResource("ShaderMaterial_jq5g8")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[connection signal="game_over" from="Score" to="." method="_on_score_game_over"]
+[connection signal="out_of_bounds" from="Ball" to="Score" method="_on_ball_out_of_bounds"]

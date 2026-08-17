@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://bhtcwbejn333h"]
+
+[ext_resource type="Script" uid="uid://c6w3p6tmvhjuy" path="res://scn/score.gd" id="1_1bonw"]
+[ext_resource type="FontFile" uid="uid://duounal745u2v" path="res://src/pong-score.otf" id="1_c4lrw"]
+
+[node name="Score" type="Control" unique_id=1110370194]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1bonw")
+
+[node name="Player1Score" type="Label" parent="." unique_id=1183078660]
+modulate = Color(1, 1, 1, 0.61960787)
+layout_mode = 0
+offset_left = 85.0
+offset_top = 16.0
+offset_right = 155.00009
+offset_bottom = 86.0
+theme_override_fonts/font = ExtResource("1_c4lrw")
+theme_override_font_sizes/font_size = 70
+text = "4"
+
+[node name="Player2Score" type="Label" parent="." unique_id=1047536366]
+modulate = Color(1, 1, 1, 0.61960787)
+layout_mode = 0
+offset_left = 540.0
+offset_top = 16.0
+offset_right = 610.0
+offset_bottom = 86.0
+theme_override_fonts/font = ExtResource("1_c4lrw")
+theme_override_font_sizes/font_size = 70
+text = "5"

@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://d1hap1gshipii"]
+
+[ext_resource type="Script" uid="uid://b3pii6mecjst8" path="res://scn/ball.gd" id="1_moebi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_moebi"]
+size = Vector2(14, 14)
+
+[node name="Ball" type="Area2D" unique_id=677164344]
+script = ExtResource("1_moebi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1286015332]
+shape = SubResource("RectangleShape2D_moebi")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1288906886]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Timer" type="Timer" parent="." unique_id=353565052]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

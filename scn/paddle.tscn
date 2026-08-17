@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://kgen6bqq5753"]
+
+[ext_resource type="Script" uid="uid://cwh0yar114pje" path="res://scn/paddle.gd" id="1_5875q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pfukp"]
+size = Vector2(8, 80)
+
+[node name="Paddle" type="Area2D" unique_id=985213707]
+script = ExtResource("1_5875q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1846165954]
+shape = SubResource("RectangleShape2D_pfukp")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=932026778]
+offset_left = -4.0
+offset_top = -40.0
+offset_right = 4.0
+offset_bottom = 40.0
