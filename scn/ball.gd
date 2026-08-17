@@ -2,7 +2,7 @@ extends Area2D
 
 signal out_of_bounds
 
-@onready var paddle: AudioStreamPlayer = $"../Audio/Paddle"
+@onready var audio: AudioStreamPlayer = $"../Audio/Paddle"
 @onready var wall: AudioStreamPlayer = $"../Audio/Wall"
 @onready var score: AudioStreamPlayer = $"../Audio/Score"
 @onready var timer: Timer = $Timer
@@ -49,7 +49,7 @@ func _physics_process(delta: float) -> void:
 			side = 0
 			ball_start()
 		if is_demo_mode == true:
-			direction.x *= -1
+			direction.x = abs(direction.x)
 	if position.x > screen_size.x + ball_size/2.0:
 		if is_demo_mode == false:
 			play_sound(score)
@@ -57,7 +57,7 @@ func _physics_process(delta: float) -> void:
 			side = 1
 			ball_start()
 		if is_demo_mode == true:
-			direction.x *= -1
+			direction.x = -abs(direction.x)
 
 func ball_start():
 	speed = base_speed
@@ -79,7 +79,7 @@ func ball_start():
 
 func _on_area_entered(area: Area2D) -> void:
 	hit_count += 1
-	play_sound(paddle)
+	play_sound(audio)
 	if hit_count == 4:
 		speed = base_speed * 1.5
 	if hit_count == 12:
@@ -88,7 +88,7 @@ func _on_area_entered(area: Area2D) -> void:
 	var paddle_pos = area.position
 	var paddle_len = area.paddle_len
 	var percent = clamp((position.y - (paddle_pos.y - paddle_len/2)) / paddle_len, 0, 1)
-	percent = int(percent * 8)
+	percent = clampi(int(percent * 8), 0, 7)
 	
 	match percent:
 		0:

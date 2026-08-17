@@ -9,18 +9,16 @@ extends Node2D
 var is_demo_mode = true
 
 func _input(event):
-	if event.is_action_pressed("ui_accept"):
-		switch_demo_vars()
-		score.player_1_score.text = str(0)
-		score.player_2_score.text = str(0)
+	if is_demo_mode and event.is_action_pressed("ui_accept"):
+		set_demo_mode(false)
+		score.reset()
 		
 func _on_score_game_over() -> void:
-	switch_demo_vars()
+	set_demo_mode(true)
 
-func switch_demo_vars():
-	is_demo_mode = !is_demo_mode
-	ball.is_demo_mode = !ball.is_demo_mode
-	paddle.is_demo_mode = !paddle.is_demo_mode
-	paddle_2.is_demo_mode = !paddle_2.is_demo_mode
-	press_space.visible = !press_space.visible
-	
+func set_demo_mode(value):
+	is_demo_mode = value
+	ball.is_demo_mode = value
+	paddle.is_demo_mode = value
+	paddle_2.is_demo_mode = value
+	press_space.visible = value

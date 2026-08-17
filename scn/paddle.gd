@@ -36,5 +36,5 @@ func _physics_process(delta: float) -> void:
 	position.y = clamp(position.y, paddle_len/2.0 + death_zone, screen_height - paddle_len/2.0)
 	
 func paddle_demo_switch():
-	visible = not visible
-	$CollisionShape2D.disabled = not $CollisionShape2D.disabled
+	visible = not is_demo_mode
+	$CollisionShape2D.set_deferred("disabled", is_demo_mode)
