@@ -80,12 +80,12 @@ position = Vector2(320, 240)
 [node name="Paddle" parent="." unique_id=985213707 instance=ExtResource("2_nkl5l")]
 position = Vector2(16, 228)
 player_id = 1
-paddle_len = 70
+paddle_len = 50
 
 [node name="Paddle2" parent="." unique_id=914456459 instance=ExtResource("2_nkl5l")]
 position = Vector2(624, 228)
 player_id = 2
-paddle_len = 70
+paddle_len = 50
 
 [node name="Audio" type="Node2D" parent="." unique_id=1451943146]
 

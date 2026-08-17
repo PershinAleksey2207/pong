@@ -1,6 +1,6 @@
 # Pong
 
-![Gameplay](docs/gameplay.png)
+![Gameplay](docs/gameplay.gif)
 
 An attempt to get as close to the original 1972 Pong as possible: two rectangles,
 a square ball, a dashed net down the middle and a big blocky score. No power-ups,
@@ -12,9 +12,9 @@ ray tube. So instead of faking chunky pixels, this build runs a post-process tha
 imitates the tube itself — glass curvature, scanlines, phosphor mask, colour
 bleeding around the edges of shapes, vignette and a slight analog signal jitter.
 
-| Attract mode | The CRT up close |
-| --- | --- |
-| ![Attract mode](docs/demo.png) | ![CRT shader detail](docs/crt-detail.png) |
+| Attract mode | Match in progress | The CRT up close |
+| --- | --- | --- |
+| ![Attract mode](docs/demo.png) | ![Match in progress](docs/gameplay.png) | ![CRT shader detail](docs/crt-detail.png) |
 
 A learning project from the **20 Games Challenge**, where Pong is the very first
 assignment. Built with Godot 4.7.
@@ -32,10 +32,27 @@ assignment. Built with Godot 4.7.
 First player to 11 points wins, after which the game drops back into attract mode.
 
 While nobody is playing, the ball bounces off all four walls on its own and the
-paddles stay hidden, the way an arcade cabinet idles. The bounce angle depends on
-which part of the paddle the ball hits: closer to the edge, sharper the angle.
-The longer a rally lasts, the faster the ball travels — it speeds up after the
-fourth and the twelfth hit, and resets when a new ball is served.
+paddles stay hidden, the way an arcade cabinet idles.
+
+## Details borrowed from the original
+
+**The ball speeds up as a rally goes on.** It jumps to 1.5× the base speed on the
+fourth hit and to 2.2× on the twelfth, and drops back to normal when the next ball
+is served. A long rally therefore gets genuinely hard to keep alive.
+
+**The bounce angle depends on where the ball lands on the paddle.** The paddle is
+split into eight bands: hit it dead centre and the ball comes off nearly flat, hit
+it near either end and it leaves at a steep angle. This is what makes the paddle
+an aiming tool rather than a wall.
+
+**Neither paddle can reach the very top of the screen.** There is a strip along the
+top edge that both players are locked out of, so a ball placed high enough is
+simply unreachable. The original cabinet had exactly this blind spot — reportedly
+a quirk of the hardware rather than a design decision — and it is reproduced here
+instead of being fixed.
+
+**The sounds and the score typeface come from the original game**, so the beeps on
+a paddle hit, a wall bounce and a point are the ones the arcade machine made.
 
 ## Running it
 
